@@ -1,24 +1,28 @@
+SauceDemo Selenium Project
 
-SauceDemo Selenium Framework Starter
+This is my practice project for Selenium WebDriver. 
+I'm learning automation testing using Java, Maven and TestNG.
 
-Technologies:
+Currently I have implemented:
+- Login functionality
+- Inventory page (products, add to cart)
+- Basic cart features
+- Some checkout tests
+
+Technologies Used:
 - Java
-- Selenium
-- Maven
+- Selenium WebDriver
 - TestNG
-- Page Object Model (POM)
+- Maven
+- Page Object Model
 
-How to Run in Eclipse:
+How to Run:
+1. Import project in Eclipse as Maven project
+2. Right click on testng.xml → Run As → TestNG Suite
 
-1. Open Eclipse
-2. File -> Import -> Existing Maven Projects
-3. Select this folder
-4. Right click project -> Maven -> Update Project
-5. Run testng.xml
+Notes:
+- Still working on making login common for all tests
+- Need to add more comments
+- Planning to add Firefox support later
 
-Included:
-- BaseClass
-- Login Page
-- Inventory Page
-- Login Test
-- Add To Cart Test
+Feedback welcome!
