@@ -16,17 +16,15 @@ public class BaseClass {
 
     @BeforeMethod
     public void setup() {
-
         WebDriverManager.chromedriver().setup();
 
         driver = new ChromeDriver();
 
         driver.manage().window().maximize();
 
-        driver.manage().timeouts()
-                .implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        driver.get("https://www.saucedemo.com/");
+        driver.get(ConfigReader.get("url"));
     }
 
     @AfterMethod
