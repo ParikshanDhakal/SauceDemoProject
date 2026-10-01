@@ -1,0 +1,18 @@
+# Build output and generated reports
+target/
+test-output/
+reports/
+
+# Eclipse
+.settings/
+.classpath
+.project
+bin/
+
+# IntelliJ
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db

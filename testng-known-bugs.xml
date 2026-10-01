@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!-- Known bugs in SauceDemo's problem_user account (see BUGS.md).
+     These tests check the correct behavior, so they are EXPECTED TO FAIL.
+     Run with: mvn test -Dsuite=testng-known-bugs.xml -->
+<suite name="SauceDemo Known Bugs (problem_user)" verbose="1">
+
+    <listeners>
+        <listener class-name="listeners.ExtentReportListener"/>
+    </listeners>
+
+    <test name="Known Bugs">
+        <classes>
+            <class name="tests.ProblemUserBugsTest"/>
+        </classes>
+    </test>
+
+</suite>

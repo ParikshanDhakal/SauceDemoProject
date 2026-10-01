@@ -1,0 +1,74 @@
+name: UI Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  regression:
+    name: Regression suite (Chrome, headless)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Run regression tests
+        run: mvn -B test -Dheadless=true
+
+      - name: Write results to the run summary
+        if: always()
+        run: |
+          echo "### Regression suite" >> "$GITHUB_STEP_SUMMARY"
+          grep -h "Tests run:" target/surefire-reports/*.txt >> "$GITHUB_STEP_SUMMARY" || echo "No results found" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload HTML report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regression-report
+          path: reports/
+          if-no-files-found: ignore
+
+  known-bugs:
+    name: Known bugs in problem_user (expected to fail)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      # These tests check correct behavior against a deliberately buggy account,
+      # so failures are the expected result and do not fail the build
+      - name: Run known-bug tests
+        run: mvn -B test -Dheadless=true -Dsuite=testng-known-bugs.xml -Dmaven.test.failure.ignore=true
+
+      - name: Write results to the run summary
+        if: always()
+        run: |
+          echo "### Known bugs (each failure confirms a bug in BUGS.md)" >> "$GITHUB_STEP_SUMMARY"
+          grep -h "Tests run:" target/surefire-reports/*.txt >> "$GITHUB_STEP_SUMMARY" || echo "No results found" >> "$GITHUB_STEP_SUMMARY"
+          grep -h "<<< FAILURE" target/surefire-reports/*.txt | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Upload HTML report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: known-bugs-report
+          path: reports/
+          if-no-files-found: ignore
